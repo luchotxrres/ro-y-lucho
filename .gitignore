@@ -1,0 +1,33 @@
+# Dependencies
+node_modules
+/coverage
+
+# Build artifacts
+build
+dist
+.parcel-cache
+.next
+out
+/public
+*.tgz
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs and cache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+.stylelintcache
+
+# TypeScript cache
+*.tsbuildinfo
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+.vscode
