@@ -172,7 +172,7 @@ const App: React.FC = () => {
             </div>
             <div className="w-20 h-0.5 bg-wedding-accent mx-auto mb-12"></div>
             <p className="text-wedding-text text-xl leading-relaxed font-light max-w-2xl mx-auto">
-              Nada tendría sentido sin ustedes. Por eso queremos que nos acompañen en este día tan especial.
+              Nada tendría sentido sin ustedes. <br></br> Por eso queremos que nos acompañen en este día tan especial.
             </p>
           </Section>
 
