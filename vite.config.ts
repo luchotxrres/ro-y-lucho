@@ -6,8 +6,5 @@ export default defineConfig({
   base: "https://luchotxrres.github.io/ro-y-lucho",
   define: {
     "process.env": {},
-  },
-  build: {
-    outDir: "dist",
-  },
+  }
 });
