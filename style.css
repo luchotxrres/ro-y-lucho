@@ -21,6 +21,50 @@ body {
   font-family: 'Great Vibes', cursive;
 }
 
+/* --- Animación de Corazón Dibujándose --- */
+.heart-drawing-path {
+  stroke-dasharray: 5000; /* Aumentado significativamente para el nuevo path de 1024px */
+  stroke-dashoffset: 5000;
+  animation: heart-draw-animation 6s ease-in-out infinite;
+  stroke: #C9A24D; /* Aseguramos que el trazo sea dorado */
+}
+
+@keyframes heart-draw-animation {
+  0% {
+    stroke-dashoffset: 5000;
+    opacity: 0;
+    fill: transparent;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    stroke-dashoffset: 0;
+    fill: transparent;
+  }
+  60% {
+    fill: rgba(201, 162, 77, 0.2); /* Un toque de dorado al completarse el dibujo */
+  }
+  75% {
+    fill: transparent;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -5000;
+    opacity: 0;
+    fill: transparent;
+  }
+}
+
+.heart-pulse {
+  animation: heart-pulse-animation 2s ease-in-out infinite;
+}
+
+@keyframes heart-pulse-animation {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
 /* --- Estructura del Sobre --- */
 .envelope-wrapper {
   perspective: 1500px;
@@ -190,7 +234,6 @@ input, select, textarea {
   transition: all 0.3s ease;
 }
 
-/* Timeline specific styles */
 .timeline-dot::before {
   content: '';
   position: absolute;
