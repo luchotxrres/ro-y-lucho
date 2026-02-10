@@ -1,0 +1,7 @@
+{
+  "name": "Elegance - Invitación de Boda Digital",
+  "description": "Una invitación de boda interactiva, elegante y totalmente personalizable, inspirada en las mejores webs de eventos modernos.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

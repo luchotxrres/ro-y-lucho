@@ -1,0 +1,210 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #F6F3EE;
+  color: #2E2E2E;
+}
+
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-script {
+  font-family: 'Great Vibes', cursive;
+}
+
+/* --- Estructura del Sobre --- */
+.envelope-wrapper {
+  perspective: 1500px;
+  position: relative;
+  width: 320px;
+  height: 220px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .envelope-wrapper {
+    width: 480px;
+    height: 320px;
+  }
+}
+
+.envelope {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #6B1F2B; 
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+  border-radius: 4px;
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-top: 110px solid #8C2F3C;
+  transform-origin: top;
+  z-index: 30;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.4s;
+}
+
+@media (min-width: 768px) {
+  .envelope-flap {
+    border-left: 240px solid transparent;
+    border-right: 240px solid transparent;
+    border-top: 160px solid #8C2F3C;
+  }
+}
+
+.envelope-pocket {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #6B1F2B;
+  z-index: 20;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.envelope-pocket::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-bottom: 110px solid #5a1a24;
+}
+
+@media (min-width: 768px) {
+  .envelope-pocket::after {
+    border-left: 240px solid transparent;
+    border-right: 240px solid transparent;
+    border-bottom: 160px solid #5a1a24;
+  }
+}
+
+.letter {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+  background: #FFFFFF;
+  z-index: 10;
+  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border: 4px double #C9A24D;
+  border-radius: 2px;
+}
+
+.is-open .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 0;
+}
+
+.is-open .letter {
+  transform: translateY(-130px);
+}
+
+.wax-seal {
+  position: absolute;
+  top: 110px; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 40;
+  width: 75px;
+  height: 75px;
+  background: #6B1F2B;
+  border-radius: 9999px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4), inset 0 0 15px rgba(0,0,0,0.3);
+  border: 2px solid #C9A24D;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@media (min-width: 768px) {
+  .wax-seal {
+    top: 160px;
+    width: 95px;
+    height: 95px;
+  }
+}
+
+.wax-seal:hover {
+  transform: translate(-50%, -50%) scale(1.1) rotate(5deg);
+}
+
+.is-open .wax-seal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+.paper-texture {
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fade-up 1s ease-out forwards;
+}
+
+.scroll-indicator {
+  animation: bounce-slow 2s infinite;
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(-25%) translateX(-50%); }
+  50% { transform: translateY(0) translateX(-50%); }
+}
+
+input, select, textarea {
+  transition: all 0.3s ease;
+}
+
+/* Timeline specific styles */
+.timeline-dot::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0.3;
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
