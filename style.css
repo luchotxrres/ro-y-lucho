@@ -11,6 +11,7 @@ body {
   font-family: 'Lato', sans-serif;
   background-color: #F6F3EE;
   color: #2E2E2E;
+  overflow-x: hidden;
 }
 
 .font-serif {
@@ -19,6 +20,10 @@ body {
 
 .font-script {
   font-family: 'Great Vibes', cursive;
+}
+
+.perspective-2000 {
+  perspective: 2500px;
 }
 
 /* --- Animación de Corazón Dibujándose --- */
@@ -47,162 +52,124 @@ body {
   50% { transform: scale(1.08); }
 }
 
-/* --- Estructura del Sobre --- */
-.envelope-wrapper {
-  perspective: 1500px;
-  position: relative;
-  width: 260px; /* Reducido un poco más para evitar cortes laterales */
-  height: 180px;
-  margin: 0 auto;
-}
-
-@media (min-width: 768px) {
-  .envelope-wrapper {
-    width: 480px;
-    height: 320px;
-  }
-}
-
-.envelope {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: #6B1F2B; 
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  transform-style: preserve-3d;
-  transition: transform 0.8s ease;
-  border-radius: 4px;
-}
-
-.envelope-flap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
-  border-left: 130px solid transparent;
-  border-right: 130px solid transparent;
-  border-top: 90px solid #8C2F3C;
-  transform-origin: top;
-  z-index: 30;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.4s;
-}
-
-@media (min-width: 768px) {
-  .envelope-flap {
-    border-left: 240px solid transparent;
-    border-right: 240px solid transparent;
-    border-top: 160px solid #8C2F3C;
-  }
-}
-
-.envelope-pocket {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #6B1F2B;
-  z-index: 20;
-  overflow: hidden;
-  border-radius: 4px;
-}
-
-.envelope-pocket::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
-  border-left: 130px solid transparent;
-  border-right: 130px solid transparent;
-  border-bottom: 90px solid #5a1a24;
-}
-
-@media (min-width: 768px) {
-  .envelope-pocket::after {
-    border-left: 240px solid transparent;
-    border-right: 240px solid transparent;
-    border-bottom: 160px solid #5a1a24;
-  }
-}
-
-.letter {
-  position: absolute;
-  top: 5%;
-  left: 5%;
-  width: 90%;
-  height: 90%;
-  background: #FFFFFF;
-  z-index: 10;
-  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px; /* Reducido padding para móviles */
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  border: 4px double #C9A24D;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.is-open .envelope-flap {
-  transform: rotateX(180deg);
-  z-index: 0;
-}
-
-.is-open .letter {
-  transform: translateY(-80px); /* Ajustado para que se vea bien en móviles sin salirse */
-}
-
-@media (min-width: 768px) {
-  .is-open .letter {
-    transform: translateY(-130px);
-  }
-}
-
-.wax-seal {
-  position: absolute;
-  top: 90px; 
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 40;
-  width: 65px;
-  height: 65px;
-  background: #6B1F2B;
-  border-radius: 9999px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.4), inset 0 0 15px rgba(0,0,0,0.3);
-  border: 2px solid #C9A24D;
-  cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@media (min-width: 768px) {
-  .wax-seal {
-    top: 160px;
-    width: 95px;
-    height: 95px;
-  }
-}
-
-.wax-seal:hover {
-  transform: translate(-50%, -50%) scale(1.1) rotate(5deg);
-}
-
-.is-open .wax-seal {
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0);
-  pointer-events: none;
-}
-
+/* --- Sobre y Solapas --- */
 .paper-texture {
   background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
 }
 
+/* Apertura de Solapa Superior */
+.envelope-flap-single-open {
+  transform: rotateX(175deg);
+  box-shadow: 0 50px 100px rgba(0,0,0,0.4);
+  /* Bajamos el z-index al abrir para que la tarjeta pase POR DELANTE de la solapa */
+  z-index: 5 !important; 
+  transition: transform 1.2s ease-in-out, z-index 0.1s step-end 0.3s;
+}
+
+/* Sello de lacre */
+.wax-seal-open {
+  transform: translate(-50%, -280%) rotate(25deg) scale(0.2);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Deslizamiento de la tarjeta hacia afuera con Zoom controlado */
+/* Reducido un 20% (de -85% a -65%) */
+@keyframes card-slide-out-anim {
+  0% { 
+    transform: translateY(10%) scale(0.95);
+    opacity: 0; 
+  }
+  15% {
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(-65%) scale(1.05); 
+    opacity: 1; 
+  }
+}
+
+.card-slide-out {
+  animation: card-slide-out-anim 2.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  animation-delay: 0.5s; 
+}
+
+/* --- Sello de Lacre --- */
+.wax-seal-container {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 768px) {
+  .wax-seal-container {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.wax-seal-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 35% 35%, #9C3F4C, #6B1F2B);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 12px 35px rgba(0,0,0,0.45),
+    inset 0 -5px 15px rgba(0,0,0,0.5),
+    inset 0 5px 15px rgba(255,255,255,0.1);
+  border: 1px solid rgba(201, 162, 77, 0.25);
+}
+
+.shadow-gold {
+  box-shadow: 0 0 35px rgba(201, 162, 77, 0.25), 0 12px 45px rgba(0,0,0,0.5);
+}
+
+.wax-seal-text {
+  color: #FFFFFF;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .wax-seal-text {
+    font-size: 2.2rem;
+  }
+}
+
+.wax-seal-border-gold {
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(201, 162, 77, 0.4);
+  border-radius: 50%;
+}
+
+.wax-seal-container:hover .wax-seal-body {
+  transform: scale(1.08) rotate(-8deg);
+}
+
+/* --- Animaciones Generales --- */
+@keyframes reveal-app {
+  from { opacity: 0; filter: blur(15px); transform: scale(1.05); }
+  to { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
+.animate-reveal-app {
+  animation: reveal-app 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
 

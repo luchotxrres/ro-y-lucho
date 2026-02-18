@@ -8,6 +8,9 @@ import { Timeline } from './components/Timeline';
 import { WEDDING_DATA } from './constants';
 import { GoogleGenAI } from '@google/genai';
 
+// Usando la imagen local de la carpeta ./img
+const HERO_IMAGE_URL = './img/img-hero.JPG';
+
 const App: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasEntered, setHasEntered] = useState(false);
@@ -46,6 +49,7 @@ const App: React.FC = () => {
   }, []);
 
   const handleOpenEnvelope = () => {
+    if (isOpening) return;
     setIsOpening(true);
     
     if (audioRef.current) {
@@ -53,13 +57,18 @@ const App: React.FC = () => {
       audioRef.current.play().catch(e => console.log("Audio play blocked", e));
     }
     
+    // Secuencia de animación optimizada:
+    // 0s: Abre solapa
+    // 0.5s: Sube tarjeta (tarda 2.4s) -> llega a destino en 2.9s
+    // 4.5s: Inicia fundido (da ~1.6s de lectura estática total)
+    // 5.5s: Entra a la web
     setTimeout(() => {
       setIsFading(true);
       setTimeout(() => {
         setHasEntered(true);
         window.scrollTo(0, 0);
-      }, 800);
-    }, 1800); 
+      }, 1000);
+    }, 4500); 
   };
 
   const scrollToTop = () => {
@@ -87,41 +96,77 @@ const App: React.FC = () => {
       </audio>
 
       {!hasEntered ? (
-        <div className={`fixed inset-0 z-[100] bg-wedding-bg paper-texture flex flex-col items-center justify-center p-4 transition-all duration-1000 ${isFading ? 'opacity-0 scale-110' : 'opacity-100 scale-100'}`}>
-          <div className="text-center animate-fade-up w-full max-w-lg mx-auto">
-            <p className="text-wedding-primary tracking-[0.3em] md:tracking-[0.5em] uppercase text-[9px] md:text-[10px] mb-8 md:mb-12 font-sans font-bold">Nuestra Invitación</p>
-            
-            <div className={`envelope-wrapper ${isOpening ? 'is-open' : ''}`}>
-              <div onClick={handleOpenEnvelope} className="wax-seal flex items-center justify-center group">
-                <span className="text-wedding-white text-2xl md:text-4xl font-serif select-none drop-shadow-md transition-transform group-hover:scale-110">
-                  {WEDDING_DATA.names.bride[0]}<span className="text-xs italic opacity-40">&</span>{WEDDING_DATA.names.groom[0]}
-                </span>
-                <div className="absolute inset-2 border border-wedding-white/10 rounded-full scale-90"></div>
-              </div>
+        <div className={`fixed inset-0 z-[500] flex flex-col items-center justify-center overflow-hidden transition-all duration-1000 ${isFading ? 'bg-white' : 'bg-wedding-bg'}`}>
+          
+          {/* Capa de fundido blanco */}
+          <div className={`absolute inset-0 z-[100] bg-white transition-opacity duration-1000 pointer-events-none ${isFading ? 'opacity-100' : 'opacity-0'}`}></div>
+
+          <div className={`absolute top-[8vh] text-center w-full px-6 transition-all duration-1000 ${isOpening ? 'opacity-0 -translate-y-10' : 'opacity-100 translate-y-0'}`}>
+             <p className="text-wedding-primary/30 font-serif italic text-xl md:text-3xl tracking-[0.4em] uppercase">Rocio & Lucho</p>
+          </div>
+
+          <div className={`relative w-full h-[50vh] md:h-[40vh] flex items-center justify-center perspective-2000 transition-all duration-1000 ${isOpening && isFading ? 'scale-110 blur-sm' : 'scale-100'}`}>
+            <div className="relative w-full max-w-2xl h-full flex items-center justify-center">
               
-              <div className="envelope">
-                <div className="envelope-flap"></div>
-                <div className="envelope-pocket"></div>
-                <div className="letter">
-                  <div className="absolute inset-1 border border-wedding-accent/20 pointer-events-none"></div>
-                  <p className="text-[7px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.4em] text-wedding-accent mb-2 md:mb-4 font-bold whitespace-nowrap">Save the Date</p>
-                  <div className="text-[17px] md:text-5xl font-serif text-wedding-primary leading-tight whitespace-nowrap px-2">
-                    Ro <span className="text-sm md:text-3xl italic text-wedding-accent opacity-60 font-sans">&</span> Lucho
-                  </div>
-                  <div className="w-8 md:w-12 h-px md:h-0.5 bg-wedding-accent/30 mt-3 md:mt-6"></div>
-                  <p className="mt-3 md:mt-6 text-[8px] md:text-[11px] text-wedding-secondary/60 tracking-[0.1em] md:tracking-[0.2em] font-sans italic whitespace-nowrap">11 . 04 . 2026</p>
+              {/* Parte Trasera */}
+              <div className="absolute inset-0 bg-wedding-primary shadow-2xl z-0 rounded-sm overflow-hidden">
+                <div className="absolute inset-0 paper-texture opacity-30 mix-blend-overlay"></div>
+              </div>
+
+              {/* Tarjeta de Invitación */}
+              <div className={`absolute w-[88%] md:w-[85%] h-[85%] bg-wedding-white shadow-lg z-10 flex flex-col items-center justify-center p-4 md:p-12 border border-wedding-neutral/10 transition-all duration-[2.4s] ease-out ${isOpening ? 'card-slide-out' : 'translate-y-4 opacity-0'}`}>
+                 <div className="border border-wedding-accent/20 w-full h-full p-4 md:p-8 flex flex-col items-center justify-center relative bg-wedding-white">
+                    <div className="absolute top-2 left-2 md:top-4 md:left-4 w-4 h-4 md:w-8 md:h-8 border-t border-l border-wedding-accent/30"></div>
+                    <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 w-4 h-4 md:w-8 md:h-8 border-b border-r border-wedding-accent/30"></div>
+                    
+                    <p className="text-wedding-accent text-[8px] md:text-[10px] uppercase tracking-[0.6em] mb-4 font-bold">Reserva la fecha</p>
+                    <h2 className="text-wedding-primary font-serif text-2xl md:text-5xl tracking-tighter mb-4 text-center leading-none">
+                      {WEDDING_DATA.names.bride} <br/> <span className="italic opacity-30 text-xl md:text-4xl">&</span> <br/> {WEDDING_DATA.names.groom}
+                    </h2>
+                    <div className="w-10 h-px bg-wedding-accent/40 my-3"></div>
+                    <p className="text-wedding-primary/60 font-serif italic text-xs md:text-lg">{WEDDING_DATA.displayDate}</p>
+                 </div>
+              </div>
+
+              {/* Bolsillo Frontal */}
+              <div className="absolute bottom-0 left-0 w-full h-1/2 bg-wedding-primary z-20 shadow-[0_-10px_20px_rgba(0,0,0,0.15)] rounded-b-sm overflow-hidden">
+                <div className="absolute inset-0 paper-texture opacity-30 mix-blend-overlay"></div>
+                <div className="absolute top-0 left-0 w-full h-full bg-wedding-primary" style={{ clipPath: 'polygon(0 0, 50% 20%, 100% 0, 100% 100%, 0 100%)' }}></div>
+              </div>
+
+              {/* Solapa Superior */}
+              <div 
+                className={`absolute top-0 left-0 w-full h-1/2 bg-wedding-primary z-30 transition-all duration-[1.2s] ease-in-out origin-top shadow-md ${isOpening ? 'envelope-flap-single-open' : ''}`}
+                style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
+              >
+                <div className="absolute inset-0 paper-texture opacity-30 mix-blend-overlay"></div>
+              </div>
+
+              {/* Sello */}
+              <div 
+                onClick={handleOpenEnvelope} 
+                className={`wax-seal-container z-40 transition-all duration-[1.2s] ${isOpening ? 'wax-seal-open' : ''}`}
+                style={{ top: '50%' }}
+              >
+                <div className="wax-seal-body shadow-gold">
+                  <span className="wax-seal-text">
+                    {WEDDING_DATA.names.bride[0]}<span className="text-sm md:text-xl italic opacity-50 mx-1">&</span>{WEDDING_DATA.names.groom[0]}
+                  </span>
+                  <div className="wax-seal-border-gold"></div>
+                </div>
+                <div className={`absolute -bottom-16 left-1/2 -translate-x-1/2 whitespace-nowrap transition-opacity duration-500 ${isOpening ? 'opacity-0' : 'opacity-100'}`}>
+                   <p className="text-wedding-accent font-sans font-bold uppercase tracking-[0.4em] text-[10px] md:text-xs animate-pulse">Tocar para abrir</p>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className={`mt-16 md:mt-24 space-y-3 transition-opacity duration-500 ${isOpening ? 'opacity-0' : 'opacity-100'}`}>
-              <p className="text-wedding-secondary font-serif italic text-lg md:text-xl">Tocá el sello para abrir</p>
-              <div className="w-10 h-0.5 bg-wedding-accent mx-auto"></div>
-            </div>
+          <div className={`absolute bottom-[8vh] text-center w-full transition-all duration-1000 ${isOpening ? 'opacity-0 translate-y-10' : 'opacity-100 translate-y-0'}`}>
+             <p className="text-wedding-primary/50 font-serif italic text-lg md:text-2xl tracking-[0.2em]">11 . 04 . 26</p>
           </div>
         </div>
       ) : (
-        <>
+        <div className="animate-reveal-app">
           <button 
             onClick={toggleMute}
             className="fixed top-4 right-4 md:top-6 md:right-6 z-[60] w-10 h-10 md:w-12 md:h-12 bg-wedding-white/90 backdrop-blur-xl rounded-full flex items-center justify-center text-wedding-primary shadow-lg border border-wedding-neutral hover:scale-110 transition-all active:scale-95 group"
@@ -140,8 +185,9 @@ const App: React.FC = () => {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
           </button>
 
+          {/* Hero Section */}
           <section className="h-screen relative flex items-center justify-center overflow-hidden bg-wedding-neutral">
-            <div className="absolute inset-0 z-0 bg-cover bg-center" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=2340&auto=format&fit=crop')` }}>
+             <div className="absolute inset-0 z-0 bg-cover bg-center" style={{ backgroundImage: `url('${HERO_IMAGE_URL}')` }}>
               <div className="absolute inset-0 bg-wedding-primary/40 backdrop-blur-[1px]"></div>
             </div>
             <div className="relative z-10 text-center text-wedding-white p-4 animate-fade-up w-full">
@@ -156,6 +202,7 @@ const App: React.FC = () => {
             </div>
           </section>
 
+          {/* Bienvenida AI */}
           <Section className="text-center max-w-4xl mx-auto pt-24 md:pt-40 pb-20 px-6">
             <SectionIcon className="heart-pulse overflow-hidden p-2">
               <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
@@ -171,6 +218,7 @@ const App: React.FC = () => {
             </p>
           </Section>
 
+          {/* Countdown */}
           <Section className="bg-wedding-white/50 my-16 py-24 border-y border-wedding-neutral text-center overflow-hidden">
             <SectionIcon>
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -181,6 +229,7 @@ const App: React.FC = () => {
             <Countdown targetDate={WEDDING_DATA.date} />
           </Section>
 
+          {/* Ubicación */}
           <Section id="location" className="max-w-4xl mx-auto py-32 px-6 text-center">
             <SectionIcon>
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -199,16 +248,12 @@ const App: React.FC = () => {
             </a>
           </Section>
 
+          {/* Cronograma */}
           <Section id="schedule" className="py-32 px-6 bg-wedding-white/30 text-center">
-            <SectionIcon>
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2v12a2 2 0 002 2z" />
-              </svg>
-            </SectionIcon>
-            <h2 className="text-[26px] xs:text-3xl sm:text-5xl md:text-7xl font-serif mb-6 text-wedding-primary italic whitespace-nowrap overflow-visible px-2">Cronograma</h2>
             <Timeline items={WEDDING_DATA.schedule} />
           </Section>
 
+          {/* Dress Code */}
           <Section className="text-center bg-wedding-primary text-wedding-white py-40 px-6">
             <SectionIcon>
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -227,22 +272,14 @@ const App: React.FC = () => {
               </div>
               <div className="pt-4">
                 <a href="https://pin.it/5WgBnBbNv" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 px-12 py-6 bg-wedding-white text-wedding-primary rounded-full text-[11px] uppercase tracking-[0.4em] hover:bg-wedding-accent hover:text-wedding-white transition-all shadow-2xl font-black group active:scale-95">
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.411-5.987 1.411-5.987s-.36-.72-.36-1.781c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.541 3.554.541 6.63 0 12-5.37 12-12S18.634 0 12.017 0z"/>
-                  </svg>
                   Inspiración en Pinterest
                 </a>
               </div>
             </div>
           </Section>
 
+          {/* Regalos */}
           <Section className="text-center py-40 bg-wedding-white px-6">
-            <SectionIcon>
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M20 12V8a2 2 0 00-2-2H6a2 2 0 00-2 2v4m16 0v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8m16 0H4m8-6v16" />
-                <path d="M12 6a2 2 0 002-2 2 2 0 00-2-2 2 2 0 00-2 2 2 2 0 002 2z" />
-              </svg>
-            </SectionIcon>
             <h3 className="text-[26px] xs:text-3xl sm:text-5xl md:text-7xl font-serif text-wedding-primary italic mb-10 whitespace-nowrap overflow-visible px-2">Regalos</h3>
             <p className="text-wedding-text mb-16 max-w-xl mx-auto font-light text-xl">Tu presencia es nuestro mejor regalo, pero si deseás hacernos uno, aquí están nuestros datos.</p>
             <button onClick={() => setIsModalOpen(true)} className="px-14 py-6 border-2 border-wedding-primary text-wedding-primary rounded-full text-[11px] uppercase tracking-[0.5em] hover:bg-wedding-primary hover:text-wedding-white transition-all duration-500 font-black active:scale-95 shadow-lg">
@@ -250,18 +287,15 @@ const App: React.FC = () => {
             </button>
           </Section>
 
+          {/* RSVP */}
           <Section id="rsvp" className="bg-wedding-bg/50 py-40 px-6 text-center">
-            <SectionIcon>
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </SectionIcon>
             <h3 className="text-3xl sm:text-5xl md:text-7xl font-serif mb-6 text-wedding-primary italic whitespace-nowrap overflow-visible px-2">Confirmar Asistencia</h3>
             <div className="max-w-xl mx-auto">
               <RSVPForm />
             </div>
           </Section>
 
+          {/* Footer */}
           <footer className="py-40 md:py-60 text-center bg-wedding-white border-t border-wedding-neutral">
             <h2 className="text-7xl md:text-[12rem] font-script text-wedding-bg mb-12 select-none leading-none">R & L</h2>
             <p className="text-[10px] md:text-[12px] tracking-[0.4em] md:tracking-[0.6em] text-wedding-neutral uppercase font-bold">
@@ -270,7 +304,7 @@ const App: React.FC = () => {
           </footer>
 
           <GiftModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-        </>
+        </div>
       )}
     </div>
   );
