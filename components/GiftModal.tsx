@@ -28,9 +28,11 @@ export const GiftModal: React.FC<GiftModalProps> = ({ isOpen, onClose }) => {
 
         <div className="text-center mb-10">
           <div className="w-20 h-20 bg-wedding-bg rounded-full flex items-center justify-center mx-auto mb-8 text-wedding-accent border border-wedding-neutral">
-             <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-             </svg>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M20 12V8a2 2 0 00-2-2H6a2 2 0 00-2 2v4m16 0v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8m16 0H4m8-6v16">
+              </path>
+              <path d="M12 6a2 2 0 002-2 2 2 0 00-2-2 2 2 0 00-2 2 2 2 0 002 2z"></path>
+            </svg>          
           </div>
           <h3 className="text-4xl font-serif text-wedding-primary mb-4 italic">Regalos</h3>
           <p className="text-wedding-text font-light text-lg">Tu presencia es nuestro mejor regalo, pero si deseás hacernos un obsequio:</p>

@@ -38,6 +38,11 @@ export interface WeddingConfig {
   };
   schedule: TimelineItem[];
   instagramHashtag?: string;
+  googleSheetsScriptUrl: string;
+  // URL del archivo MP3. Tip: Usa Dropbox o un hosting de archivos.
+  musicUrl: string;
+  // Segundos desde donde querés que empiece la canción al abrir el sobre.
+  musicStartTime: number;
 }
 
 export interface RSVPData {
