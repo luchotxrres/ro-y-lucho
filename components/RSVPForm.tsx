@@ -52,8 +52,8 @@ export const RSVPForm: React.FC = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
            </svg>
         </div>
-        <h3 className="text-4xl font-serif mb-6 text-wedding-primary italic">¡Muchas gracias!</h3>
-        <p className="text-wedding-text text-lg">Tu confirmación ha sido recibida con éxito.</p>
+        <h3 className="text-4xl font-serif mb-6 text-wedding-primary italic">Gracias por ser parte!</h3>
+        <p className="text-wedding-text text-lg">Nos llena el corazón saber que compartirás este día con nosotros. Celebrar el amor junto a quienes amamos es el mayor regalo.</p>
         {/* <button 
           onClick={() => setIsSubmitted(false)}
           className="mt-10 text-xs font-bold uppercase tracking-[0.3em] text-wedding-accent hover:text-wedding-primary transition-colors underline"

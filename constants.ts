@@ -4,7 +4,7 @@ import { WeddingConfig } from './types';
 export const WEDDING_DATA: WeddingConfig = {
   names: {
     groom: "Lucho",
-    bride: "Rocio"
+    bride: "Ro"
   },
   date: "2026-04-11T11:30:00",
   displayDate: "Sábado 11 de Abril de 2026",
