@@ -8,8 +8,11 @@ import { Timeline } from './components/Timeline';
 import { WEDDING_DATA } from './constants';
 import { GoogleGenAI } from '@google/genai';
 
-// Usando la imagen local de la carpeta ./img
-const HERO_IMAGE_URL = './img/img-background.jpeg';
+// Importamos la imagen para que Vite la procese correctamente en el build
+import heroBg from './img/img-background.jpeg';
+
+const HERO_IMAGE_URL = heroBg;
+
 
 const App: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
