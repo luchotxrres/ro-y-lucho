@@ -44,7 +44,7 @@ export const RSVPForm: React.FC = () => {
     }
   };
 
-  if (isSubmitted) {
+  if (isSubmitted && formData.attendance === 'confirm') {
     return (
       <div className="text-center py-16 animate-fade-in bg-wedding-white rounded-[3rem] shadow-sm border border-wedding-neutral">
         <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500">
@@ -54,6 +54,24 @@ export const RSVPForm: React.FC = () => {
         </div>
         <h3 className="text-4xl font-serif mb-6 text-wedding-primary italic">Gracias por ser parte!</h3>
         <p className="text-wedding-text text-lg">Nos llena el corazón saber que compartirás este día con nosotros. Celebrar el amor junto a quienes amamos es el mayor regalo.</p>
+        {/* <button 
+          onClick={() => setIsSubmitted(false)}
+          className="mt-10 text-xs font-bold uppercase tracking-[0.3em] text-wedding-accent hover:text-wedding-primary transition-colors underline"
+        >
+          Enviar otra respuesta
+        </button> */}
+      </div>
+    );
+  } else if (isSubmitted && formData.attendance === 'reject') {
+    return (
+      <div className="text-center py-16 animate-fade-in bg-wedding-white rounded-[3rem] shadow-sm border border-wedding-neutral">
+        <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500">
+           <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+           </svg>
+        </div>
+        <h3 className="text-4xl font-serif mb-6 text-wedding-primary italic">Te vamos a extrañar</h3>
+        <p className="text-wedding-text text-lg">Aunque no puedas asistir, valoramos tu cariño y tus buenos deseos. Eso también forma parte de nuestra celebración.</p>
         {/* <button 
           onClick={() => setIsSubmitted(false)}
           className="mt-10 text-xs font-bold uppercase tracking-[0.3em] text-wedding-accent hover:text-wedding-primary transition-colors underline"

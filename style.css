@@ -63,7 +63,7 @@ body {
   box-shadow: 0 50px 100px rgba(0,0,0,0.4);
   /* Bajamos el z-index al abrir para que la tarjeta pase POR DELANTE de la solapa */
   z-index: 5 !important; 
-  transition: transform 1.2s ease-in-out, z-index 0.1s step-end 0.3s;
+  transition: transform 0.7 ease-in-out, z-index 0.1s step-end 0.3s;
 }
 
 /* Sello de lacre */
