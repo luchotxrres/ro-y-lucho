@@ -167,7 +167,7 @@ const App: React.FC = () => {
                 className={`absolute top-0 left-0 w-full h-1/2 bg-wedding-primary z-30 transition-all duration-[1.2s] ease-in-out origin-top shadow-md ${isOpening ? "envelope-flap-single-open" : ""}`}
                 style={{ clipPath: "polygon(0 0, 100% 0, 50% 100%)" }}
               >
-                <div className="absolute inset-0 paper-texture opacity-30 mix-blend-overlay"></div>
+                <div className="absolute inset-0 paper-texture opacity-40 mix-blend-overlay"></div>
               </div>
 
               {/* Sello */}
@@ -315,7 +315,7 @@ const App: React.FC = () => {
             </Section>
 
             {/* Countdown */}
-            <Section className="bg-wedding-white/40 backdrop-blur-md py-24 border-y border-wedding-neutral text-center">
+            <Section className="bg-wedding-white/80 backdrop-blur-md py-24 border-y border-wedding-neutral text-center">
               <SectionIcon>
                 <svg
                   width="40"
@@ -389,7 +389,7 @@ const App: React.FC = () => {
             {/* Cronograma */}
             <Section
               id="schedule"
-              className="py-32 px-6 bg-wedding-white/40 backdrop-blur-md text-center"
+              className="py-32 px-6 bg-wedding-white/60 backdrop-blur-xl text-center"
             >
               <Timeline items={WEDDING_DATA.schedule} />
             </Section>
@@ -439,7 +439,7 @@ const App: React.FC = () => {
             </Section>
 
             {/* Regalos */}
-            <Section className="text-center py-40 bg-wedding-white/40 backdrop-blur-md px-6">
+            <Section className="text-center py-40 bg-wedding-white/80 backdrop-blur-xl px-6">
               <h3 className="text-[26px] xs:text-3xl sm:text-5xl md:text-7xl font-serif text-wedding-primary italic mb-10 whitespace-nowrap overflow-visible px-2">
                 Regalos
               </h3>
@@ -449,7 +449,7 @@ const App: React.FC = () => {
               </p>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="px-14 py-6 border-2 border-wedding-primary text-wedding-primary rounded-full text-[11px] uppercase tracking-[0.5em] hover:bg-wedding-primary hover:text-wedding-white transition-all duration-500 font-black active:scale-95 shadow-lg"
+                className="px-14 py-6 bg-wedding-white/50 border-2 border-wedding-primary text-wedding-primary rounded-full text-[11px] uppercase tracking-[0.5em] hover:bg-wedding-primary hover:text-wedding-white transition-all duration-500 font-black active:scale-95 shadow-lg backdrop-blur-sm"
               >
                 Ver CBU / Alias
               </button>
@@ -469,7 +469,7 @@ const App: React.FC = () => {
             </Section>
 
             {/* Footer */}
-            <footer className="py-40 md:py-60 text-center bg-wedding-white/40 backdrop-blur-md border-t border-wedding-neutral">
+            <footer className="py-40 md:py-60 text-center bg-wedding-white/80 backdrop-blur-xl border-t border-wedding-neutral">
               <h2 className="text-7xl md:text-[12rem] font-script text-wedding-bg mb-12 select-none leading-none">
                 R & L
               </h2>
